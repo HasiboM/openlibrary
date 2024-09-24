@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your-repo-url'  # Replace with your GitHub repo URL
+                git 'https://github.com/HasiboM/openlibrary.git'
             }
         }
         stage('Install Dependencies') {
