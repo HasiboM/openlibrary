@@ -1,5 +1,8 @@
+import os
+
 import pytest
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 from src.openlibrary_list_page import OpenLibraryPage
 from src.openlibrary_login_page import OpenLibraryLoginPage
@@ -12,7 +15,21 @@ PASSWORD = "zxcvbn"
 @pytest.fixture
 def driver():
     """Selenium WebDriver fixture."""
-    driver = webdriver.Chrome()  # Make sure you have the correct browser driver installed
+    # Get the environment variable
+    environment = os.getenv('ENVIRONMENT', 'local')  # Default to 'local'
+
+    if environment == 'production':
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+
+        driver = webdriver.Remote(
+            command_executor='http://localhost:4444/wd/hub',  # Connect to Selenium service
+            options=chrome_options
+        )
+    else:
+        driver = webdriver.Chrome()  # Use local Chrome for development
     yield driver
     driver.quit()
 

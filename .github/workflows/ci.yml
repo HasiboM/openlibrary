@@ -17,6 +17,8 @@ jobs:
         image: selenium/standalone-chrome:latest
         ports:
           - 4444:4444
+    env:
+      ENVIRONMENT: production
 
     steps:
       - name: Checkout repository
