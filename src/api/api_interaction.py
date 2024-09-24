@@ -9,10 +9,6 @@ books = {
 
 LOGIN_ENDPOINT = "/account/login"
 
-# Replace these placeholders with valid data
-USERNAME = "michaelhasibo@gmail.com"  # Your Open Library username
-PASSWORD = "zxcvbn"  # Your Open Library password
-
 
 # Function to log in and create a session
 def login_and_create_session(username, password):
@@ -90,8 +86,5 @@ def delete_list(api_key, list_id):
     response.raise_for_status()
     return response.status_code  # Return the status code (204 means success)
 
-
-# login
-session = login_and_create_session(USERNAME, PASSWORD)
-lists = get_lists_containing_seed(session)
+#lists = get_lists_containing_seed(session)
 #create_list(session)
