@@ -1,12 +1,13 @@
 import pytest
 from selenium import webdriver
-from api_interaction import create_list, delete_list
-from page_objects.openlibrary_login_page import OpenLibraryLoginPage
-from page_objects.openlibrary_list_page import OpenLibraryPage
+
+from src.openlibrary_list_page import OpenLibraryPage
+from src.openlibrary_login_page import OpenLibraryLoginPage
 
 API_KEY = "your_api_key"  # Replace with your Open Library API key
 USERNAME = "michaelhasibo@gmail.com"
 PASSWORD = "zxcvbn"
+
 
 @pytest.fixture
 def driver():
