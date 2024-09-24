@@ -50,6 +50,10 @@ def create_list(_session):
     return BASE_URL + response.json()['key']
 
 
+def delete_list(_session, list_url):
+    print(f"Deleting list {list_url}")
+
+
 def get_lists_containing_seed(_session):
     """
     Fetches all the lists containing a specific book seed using a session.
