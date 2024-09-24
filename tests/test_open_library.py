@@ -19,6 +19,7 @@ def driver():
 def test_create_and_verify_list(driver):
     """Test: Log in, create a list via API, verify it in the UI, and delete it."""
     # 0. login with backend -> get cookie with fixure
+    # 0b. delete list "xyz" in order for cicd to work
     # 1. create list with backend
     # 2. login with selenium, test list exists
     # 3. delete with backend
