@@ -15,3 +15,7 @@ class OpenLibraryPage:
     def verify_list_exists(self, list_name):
         """Check if the specified list exists in the UI."""
         return self.driver.find_element(By.XPATH, f"//a[text()='{list_name}']").is_displayed()
+
+    def verify_list_id_exists(self, list_id):
+        """Check if the specified list exists in the UI."""
+        return self.driver.find_element(By.XPATH, f"//a[contains(@href, '{list_id}')]").is_displayed()
