@@ -1,23 +1,23 @@
+import os
 from src.api.api_interaction import create_list, login_and_create_session, delete_list, get_user_lists
 from src.openlibrary_list_page import OpenLibraryPage
 from src.openlibrary_login_page import OpenLibraryLoginPage
 
-USERNAME = "michaelhasibo@gmail.com"
-PASSWORD = "zxcvbn"
-
 
 def test_create_and_verify_list(driver, setup_session):
+    username = os.getenv("USERNAME")
+    password = os.getenv("PASSWORD")
     """Test: Log in, create a list via API, verify it in the UI, and delete it."""
 
     # Create a list via the API
-    login_and_create_session(USERNAME, PASSWORD)
+    login_and_create_session(username, password)
     list_id = create_list(setup_session)
     assert list_id is not None, "Failed to create a list: list_id is None"
 
     # Step 1: Log in to Open Library via the UI
     login_page = OpenLibraryLoginPage(driver)
     login_page.go_to_login_page()
-    login_page.login(USERNAME, PASSWORD)
+    login_page.login(username, password)
 
     # Verify the list exists in the UI
     open_library_page = OpenLibraryPage(driver)

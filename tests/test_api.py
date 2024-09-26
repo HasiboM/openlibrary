@@ -1,4 +1,3 @@
-
 from src.api.api_interaction import (
     create_list,
     get_user_lists,
@@ -11,9 +10,6 @@ from src.api.api_interaction import (
     get_lists_containing_seed
 )
 
-USERNAME = "michaelhasibo@gmail.com"
-PASSWORD = "zxcvbn"
-USER = "michaelhasibo"
 BOOKS = {
     "hobbit": "/works/OL31542973W",
     "Lord of the Manor": "/works/OL8028461W"
@@ -29,7 +25,7 @@ def test_create_list(setup_session):
 
 def test_get_user_lists(setup_session):
     """Test: Fetch user lists."""
-    lists = get_user_lists(setup_session, USER)
+    lists = get_user_lists(setup_session)
     assert isinstance(lists, dict), "Response should be a dictionary"
 
 

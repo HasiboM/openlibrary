@@ -3,16 +3,27 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from src.api.api_interaction import login_and_create_session
+from dotenv import load_dotenv
 
-USERNAME = "michaelhasibo@gmail.com"
-PASSWORD = "zxcvbn"
+
+@pytest.fixture(scope="session", autouse=True)
+def load_env_config():
+    # Get the environment variable
+    environment = os.getenv('ENVIRONMENT', 'local')  # Default to 'local'
+
+    if environment == 'production':
+        load_dotenv('config/.env.production')
+    else:
+        load_dotenv('config/.env.local')
 
 
 @pytest.fixture(scope='session', autouse=True)
 def setup_session():
+    username = os.getenv('USERNAME')
+    password = os.getenv('PASSWORD')
     """Setup code that runs before all tests."""
     print("\nSetting up session resources...")
-    session = login_and_create_session(USERNAME, PASSWORD)
+    session = login_and_create_session(username, password)
     yield session
     print("\nTearing down session resources...")
 

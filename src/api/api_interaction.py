@@ -1,21 +1,20 @@
+import os
 import string
 import random
 
 import requests
-
-BASE_URL = "https://openlibrary.org"
 
 books = {
     "hobbit": "/works/OL31542973W",
     "Lord of the Manor": "/works/OL8028461W",
 }
 
-LOGIN_ENDPOINT = "/account/login"
-USERNAME = "michaelhasibo@gmail.com"
-PASSWORD = "zxcvbn"
 
 # Function to log in and create a session
 def login_and_create_session(username, password):
+    base_url = os.getenv("BASE_URL")
+    login_endpoint = base_url + os.getenv("LOGIN_ENDPOINT")
+
     _session = requests.Session()
 
     # Log in to Open Library
@@ -26,7 +25,7 @@ def login_and_create_session(username, password):
         "debug": "true"
     }
 
-    response = _session.post(BASE_URL + LOGIN_ENDPOINT, data=login_payload)
+    response = _session.post(login_endpoint, data=login_payload)
     if response.status_code != 200:
         raise Exception(f"Login failed with status code: {response.status_code}")
 
@@ -42,8 +41,11 @@ def generate_random_string():
 
 
 def create_list(_session):
+    base_url = os.getenv("BASE_URL")
+    user_name = os.getenv("USER_ACCOUNT")
+
     """Create a new list using the Open Library API."""
-    url = f"{BASE_URL}/people/michaelhasibo/lists"
+    url = f"{base_url}/people/{user_name}/lists"
     headers = {"content-type": "application/json"}
     payload = {
         "name": f"automation_list_{generate_random_string()}",
@@ -62,8 +64,10 @@ def create_list(_session):
 
 
 def add_seeds_to_list(_session, list_id, books):
+    user_name = os.getenv("USER_ACCOUNT")
+    base_url = os.getenv("BASE_URL")
     """Add seeds to an existing list using the Open Library API."""
-    url = f"{BASE_URL}/people/michaelhasibo/lists/{list_id}/seeds"
+    url = f"{base_url}/people/{user_name}/lists/{list_id}/seeds"
     headers = {"Content-Type": "application/json"}
     payload = {
         "add": [{"key": seed} for seed in books]
@@ -76,8 +80,10 @@ def add_seeds_to_list(_session, list_id, books):
 
 
 def delete_seeds_from_list(_session, list_id, seeds_to_remove):
+    base_url = os.getenv("BASE_URL")
+    user_name = os.getenv("USER_ACCOUNT")
     """Delete seeds from an existing list using the Open Library API."""
-    url = f"{BASE_URL}/people/michaelhasibo/lists/{list_id}/seeds"
+    url = f"{base_url}/people/{user_name}/lists/{list_id}/seeds"
     headers = {"Content-Type": "application/json"}
     payload = {
         "remove": [{"key": seed} for seed in seeds_to_remove]
@@ -93,8 +99,10 @@ def delete_seeds_from_list(_session, list_id, seeds_to_remove):
 
 def delete_list(_session, list_id):
     """Delete a list by its URL."""
+    base_url = os.getenv("BASE_URL")
+    user_name = os.getenv("USER_ACCOUNT")
     headers = {"content-type": "application/json"}
-    list_url = f"{BASE_URL}/people/michaelhasibo/lists/{list_id}/delete.json"
+    list_url = f"{base_url}/people/{user_name}/lists/{list_id}/delete.json"
     response = _session.post(list_url, headers=headers)
 
     if response.status_code == 200:
@@ -103,15 +111,17 @@ def delete_list(_session, list_id):
         raise Exception(f"Failed to delete list. Status code: {response.status_code}, Response: {response.text}")
 
 
-def get_user_lists(_session, username):
+def get_user_lists(_session):
+    base_url = os.getenv("BASE_URL")
+    user_name = os.getenv("USER_ACCOUNT")
     """Fetches all the lists created by a user."""
-    url = f"{BASE_URL}/people/{username}/lists.json"
+    url = f"{base_url}/people/{user_name}/lists.json"
     response = _session.get(url)
     if response.status_code == 200:
         return response.json()
     else:
         raise Exception(
-            f"Failed to fetch lists for user {username}. Status code: {response.status_code}, Response: {response.text}")
+            f"Failed to fetch lists for user {user_name}. Status code: {response.status_code}, Response: {response.text}")
 
 
 def get_lists_containing_seed(_session):
@@ -125,8 +135,9 @@ def get_lists_containing_seed(_session):
     Returns:
     dict: A dictionary containing the lists that include the book seed
     """
+    base_url = os.getenv("BASE_URL")
     # Construct the full URL for the request
-    url = f"{BASE_URL}{books['hobbit']}/lists.json"
+    url = f"{base_url}{books['hobbit']}/lists.json"
 
     response = _session.get(url)
     if response.status_code == 200:
@@ -137,8 +148,9 @@ def get_lists_containing_seed(_session):
 
 
 def get_seeds_of_a_list(_session, list_id):
+    base_url = os.getenv("BASE_URL")
     """Read a list by its ID using the Open Library API."""
-    url = f"{BASE_URL}/people/michaelhasibo/lists/{list_id}.json"
+    url = f"{base_url}/people/michaelhasibo/lists/{list_id}.json"
     response = _session.get(url)
 
     # Check if the request was successful
@@ -149,8 +161,10 @@ def get_seeds_of_a_list(_session, list_id):
 
 
 def get_subjects_of_list(_session, list_id, limit=5):
+    base_url = os.getenv("BASE_URL")
+    user_name = os.getenv("USER_ACCOUNT")
     """Get subjects of a list by its ID using the Open Library API."""
-    url = f"{BASE_URL}/people/michaelhasibo/lists/{list_id}/subjects.json?limit={limit}"
+    url = f"{base_url}/people/{user_name}/lists/{list_id}/subjects.json?limit={limit}"
     response = _session.get(url)
 
     # Check if the request was successful
@@ -161,8 +175,9 @@ def get_subjects_of_list(_session, list_id, limit=5):
 
 
 def search_lists(_session, query, limit=20, offset=0):
+    base_url = os.getenv("BASE_URL")
     """Search for lists using the Open Library API."""
-    url = f"{BASE_URL}/search/lists.json"
+    url = f"{base_url}/search/lists.json"
     params = {
         "q": query,
         "limit": limit,
