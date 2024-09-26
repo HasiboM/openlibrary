@@ -1,11 +1,8 @@
 import os
-
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
 from src.api.api_interaction import login_and_create_session
-
 
 USERNAME = "michaelhasibo@gmail.com"
 PASSWORD = "zxcvbn"

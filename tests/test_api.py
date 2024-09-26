@@ -30,7 +30,6 @@ def test_create_list(setup_session):
 def test_get_user_lists(setup_session):
     """Test: Fetch user lists."""
     lists = get_user_lists(setup_session, USER)
-    # print(f"user_lists: {json.dumps(lists)}")
     assert isinstance(lists, dict), "Response should be a dictionary"
 
 

@@ -14,7 +14,6 @@ LOGIN_ENDPOINT = "/account/login"
 USERNAME = "michaelhasibo@gmail.com"
 PASSWORD = "zxcvbn"
 
-
 # Function to log in and create a session
 def login_and_create_session(username, password):
     _session = requests.Session()
@@ -58,8 +57,6 @@ def create_list(_session):
 
     response = _session.post(url, json=payload, headers=headers)
     response.raise_for_status()
-    print(f"Response from: {response.json()}")
-    print(f"return list id: {response.json()['key'].split('/')[-1]}")
     list_id = response.json()['key'].split('/')[-1]
     return list_id
 
@@ -71,7 +68,6 @@ def add_seeds_to_list(_session, list_id, books):
     payload = {
         "add": [{"key": seed} for seed in books]
     }
-    print(f"payload: {payload}")
     response = _session.post(url, json=payload, headers=headers)
     if response.status_code == 200:
         return response.json()
@@ -99,12 +95,9 @@ def delete_list(_session, list_id):
     """Delete a list by its URL."""
     headers = {"content-type": "application/json"}
     list_url = f"{BASE_URL}/people/michaelhasibo/lists/{list_id}/delete.json"
-    # Send the DELETE request
-    print(f"list_url: {list_url}")
     response = _session.post(list_url, headers=headers)
 
     if response.status_code == 200:
-        print(f"Successfully deleted the list: {list_url}")
         return response.status_code
     else:
         raise Exception(f"Failed to delete list. Status code: {response.status_code}, Response: {response.text}")
@@ -114,7 +107,6 @@ def get_user_lists(_session, username):
     """Fetches all the lists created by a user."""
     url = f"{BASE_URL}/people/{username}/lists.json"
     response = _session.get(url)
-    print(f"user_lists response: {response.text}")
     if response.status_code == 200:
         return response.json()
     else:
@@ -185,9 +177,3 @@ def search_lists(_session, query, limit=20, offset=0):
     else:
         raise Exception(f"Failed to search lists. Status code: {response.status_code}, Response: {response.text}")
 
-
-
-# session = login_and_create_session(USERNAME, PASSWORD)
-# lists = get_lists_containing_seed(session)
-# print(f"list: {list}")
-# create_list(session)

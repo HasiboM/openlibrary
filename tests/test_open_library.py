@@ -12,7 +12,6 @@ def test_create_and_verify_list(driver, setup_session):
     # Create a list via the API
     login_and_create_session(USERNAME, PASSWORD)
     list_id = create_list(setup_session)
-    print(f"List ID 1: {list_id}")
     assert list_id is not None, "Failed to create a list: list_id is None"
 
     # Step 1: Log in to Open Library via the UI
