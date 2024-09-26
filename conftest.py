@@ -6,9 +6,9 @@ from selenium.webdriver.chrome.options import Options
 
 from src.api.api_interaction import login_and_create_session
 
-# Replace these placeholders with valid data
-USERNAME = "michaelhasibo@gmail.com"  # Your Open Library username
-PASSWORD = "zxcvbn"  # Your Open Library password
+
+USERNAME = "michaelhasibo@gmail.com"
+PASSWORD = "zxcvbn"
 
 
 @pytest.fixture(scope='session', autouse=True)

@@ -38,7 +38,7 @@ jobs:
       - name: Run Tests
         run: |
           pytest --maxfail=5 --disable-warnings
-          
+
 #      # Docker steps
 #      - name: Build Docker image
 #        run: docker build . -t my-app
