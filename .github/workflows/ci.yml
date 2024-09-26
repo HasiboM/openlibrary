@@ -37,8 +37,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          pytest test_open_library.py  # Run this first
-          pytest test_api.py            # Run this second
+          pytest --maxfail=5 --disable-warnings
 
 #      # Docker steps
 #      - name: Build Docker image
